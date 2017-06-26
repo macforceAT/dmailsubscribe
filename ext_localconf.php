@@ -1,15 +1,13 @@
 <?php
-if (!defined('TYPO3_MODE')) {
-    die('Access denied.');
-}
+defined('TYPO3_MODE') or die();
 
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
     'DPN.Dmailsubscribe',
     'Fe',
-    array(
+    [
         'Subscription' => 'new, subscribe, confirm, unsubscribe, unsubscribeform, message',
-    ),
-    array(
+    ],
+    [
         'Subscription' => 'new, subscribe, confirm, unsubscribe, unsubscribeform, message',
-    )
+    ]
 );

@@ -5,7 +5,7 @@ namespace DPN\Dmailsubscribe\Domain\Model;
 /***************************************************************
  *  Copyright notice
  *
- *  (c) 2016 Björn Fromme <fromme@dreipunktnull.come>
+ *  (c) 2017 Björn Fromme <fromme@dreipunktnull.come>
  *  All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -35,7 +35,6 @@ use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
  * with subscriptions stored as tt_address records.
  *
  * @package Dmailsubscribe
- * @subpackage Domain\Model
  */
 class Subscription extends AbstractEntity
 {
@@ -76,12 +75,12 @@ class Subscription extends AbstractEntity
     protected $categories;
 
     /**
-     * @var boolean
+     * @var bool
      */
     protected $receiveHtml;
 
     /**
-     * @var boolean
+     * @var bool
      */
     protected $hidden;
 
@@ -102,7 +101,6 @@ class Subscription extends AbstractEntity
 
     /**
      * @param string $email
-     * @return void
      */
     public function setEmail($email)
     {
@@ -119,7 +117,6 @@ class Subscription extends AbstractEntity
 
     /**
      * @param string $gender
-     * @return void
      */
     public function setGender($gender)
     {
@@ -164,7 +161,6 @@ class Subscription extends AbstractEntity
 
     /**
      * @param string $name
-     * @return void
      */
     public function setName($name)
     {
@@ -181,7 +177,6 @@ class Subscription extends AbstractEntity
 
     /**
      * @param string $company
-     * @return void
      */
     public function setCompany($company)
     {
@@ -190,7 +185,6 @@ class Subscription extends AbstractEntity
 
     /**
      * @param \DPN\Dmailsubscribe\Domain\Model\Category $category
-     * @return void
      */
     public function addCategory(Category $category)
     {
@@ -207,7 +201,6 @@ class Subscription extends AbstractEntity
 
     /**
      * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\DPN\Dmailsubscribe\Domain\Model\Category> $categories
-     * @return void
      */
     public function setCategories($categories)
     {
@@ -215,36 +208,34 @@ class Subscription extends AbstractEntity
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function getReceiveHtml()
     {
-        return (boolean)$this->receiveHtml;
+        return (bool)$this->receiveHtml;
     }
 
     /**
-     * @param boolean $receiveHtml
-     * @return void
+     * @param bool $receiveHtml
      */
     public function setReceiveHtml($receiveHtml)
     {
-        $this->receiveHtml = (boolean)$receiveHtml;
+        $this->receiveHtml = (bool)$receiveHtml;
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function getHidden()
     {
-        return (boolean)$this->hidden;
+        return (bool)$this->hidden;
     }
 
     /**
-     * @param boolean $hidden
-     * @return void
+     * @param bool $hidden
      */
     public function setHidden($hidden)
     {
-        $this->hidden = (boolean)$hidden;
+        $this->hidden = (bool)$hidden;
     }
 }

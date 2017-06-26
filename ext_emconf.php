@@ -10,7 +10,7 @@
  * "version" and "dependencies" must not be touched!
  ***************************************************************/
 
-$EM_CONF[$_EXTKEY] = array(
+$EM_CONF[$_EXTKEY] = [
     'title' => 'Direct Mail Subscribe',
     'description' => 'Provides a frontend plugin to un-/subscribe to direct_mail newsletters',
     'category' => 'plugin',
@@ -27,18 +27,18 @@ $EM_CONF[$_EXTKEY] = array(
     'modify_tables' => '',
     'clearCacheOnLoad' => 1,
     'lockType' => '',
-    'version' => '1.0.1',
-    'constraints' => array(
-        'depends' => array(
-            'typo3' => '7.6.0-7.99.99',
+    'version' => '1.1.0',
+    'constraints' => [
+        'depends' => [
+            'typo3' => '8.7.0-8.7.99',
             'direct_mail' => '',
-        ),
-        'conflicts' => array(
-        ),
-        'suggests' => array(
-        ),
-    ),
-    'autoload' => array(
-        'psr-4' => array('DPN\\Dmailsubscribe\\' => 'Classes'),
-    ),
-);
+        ],
+        'conflicts' => [
+        ],
+        'suggests' => [
+        ],
+    ],
+    'autoload' => [
+        'psr-4' => ['DPN\\Dmailsubscribe\\' => 'Classes'],
+    ],
+];

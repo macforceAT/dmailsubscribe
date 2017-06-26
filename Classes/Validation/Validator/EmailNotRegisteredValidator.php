@@ -5,7 +5,7 @@ namespace DPN\Dmailsubscribe\Validation\Validator;
 /***************************************************************
  *  Copyright notice
  *
- *  (c) 2016 Björn Fromme <fromme@dreipunktnull.come>
+ *  (c) 2017 Björn Fromme <fromme@dreipunktnull.come>
  *  All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -36,7 +36,6 @@ use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
  * Returns FALSE as validation result if email is already registered.
  *
  * @package Dmailsubscribe
- * @subpackage Validation/Validator
  */
 class EmailNotRegisteredValidator extends AbstractValidator
 {
@@ -60,7 +59,6 @@ class EmailNotRegisteredValidator extends AbstractValidator
 
     /**
      * @param \TYPO3\CMS\Extbase\Object\ObjectManagerInterface $objectManager
-     * @return void
      */
     public function injectObjectManager(ObjectManagerInterface $objectManager)
     {
@@ -79,7 +77,10 @@ class EmailNotRegisteredValidator extends AbstractValidator
         $result = $repository->findByEmail($value, $this->options['lookupPageIds']);
 
         if (null !== $result) {
-            $this->addError(LocalizationUtility::translate('message.subscribe.email_already_registered', 'dmailsubscribe'), 1367223995);
+            $this->addError(
+                LocalizationUtility::translate('message.subscribe.email_already_registered', 'dmailsubscribe'),
+                1367223995
+            );
             return false;
         }
 

@@ -5,7 +5,7 @@ namespace DPN\Dmailsubscribe\Service;
 /***************************************************************
  *  Copyright notice
  *
- *  (c) 2016 Björn Fromme <fromme@dreipunktnull.come>
+ *  (c) 2017 Björn Fromme <fromme@dreipunktnull.come>
  *  All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -38,7 +38,6 @@ use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
  * Wrapper Service to quickly send emails
  *
  * @package Dmailsubscribe
- * @subpackage Service
  */
 class EmailService
 {
@@ -56,7 +55,6 @@ class EmailService
 
     /**
      * @param \TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface $configurationManager
-     * @return void
      */
     public function injectConfigurationManager(ConfigurationManagerInterface $configurationManager)
     {
@@ -65,7 +63,6 @@ class EmailService
 
     /**
      * @param \DPN\Dmailsubscribe\Service\SettingsService $settingsService
-     * @return void
      */
     public function injectSettingsService(SettingsService $settingsService)
     {
@@ -76,15 +73,18 @@ class EmailService
      * @param string $toEmail
      * @param string $toName
      * @param string $templateName
-     * @param boolean $html
+     * @param bool $html
      * @param array $variables
      * @throws ConfigurationException
-     * @return boolean
+     * @return bool
      */
     public function send($toEmail, $toName, $templateName, $html = true, array $variables = array())
     {
         $charset = $this->settingsService->getSetting('charset', 'utf-8');
-        $subject = $this->settingsService->getSetting('subject', LocalizationUtility::translate('label.default_subject', 'dmailsubscribe'));
+        $subject = $this->settingsService->getSetting(
+            'subject',
+            LocalizationUtility::translate('label.default_subject', 'dmailsubscribe')
+        );
 
         if (null === ($fromEmail = $this->settingsService->getSetting('fromEmail'))) {
             throw new ConfigurationException('Sender email address is not specified.');
@@ -94,7 +94,7 @@ class EmailService
             throw new ConfigurationException('Sender name is not specified.');
         }
 
-        $htmlView = $this->getView($templateName, 'html');
+        $htmlView = $this->getView($templateName);
         $htmlView->assignMultiple($variables);
         $htmlView->assign('charset', $charset);
         $htmlView->assign('title', $subject);
@@ -137,7 +137,9 @@ class EmailService
         $view->setFormat($format);
         $view->getRequest()->setControllerExtensionName('Dmailsubscribe');
 
-        $extbaseFrameworkConfiguration = $this->configurationManager->getConfiguration(ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK);
+        $extbaseFrameworkConfiguration = $this->configurationManager->getConfiguration(
+            ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK
+        );
 
         // Configure fluid path overlay
         $view->setTemplateRootPaths($extbaseFrameworkConfiguration['view']['templateRootPaths']);

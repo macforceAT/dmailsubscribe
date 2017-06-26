@@ -15,9 +15,6 @@ $GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist']['dmailsubscri
     'FILE:EXT:dmailsubscribe/Configuration/FlexForms/flexform_dmailsubscribe.xml'
 );
 
-/***************
- * Default TypoScript
- */
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addStaticFile(
     'dmailsubscribe',
     'Configuration/TypoScript',

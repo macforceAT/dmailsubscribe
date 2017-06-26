@@ -20,7 +20,7 @@
     "GPL-2.0+"
   ],
   "require": {
-    "typo3/cms-core": ">=7.6.0,<8.0"
+    "typo3/cms-core": ">=8.7.0,<8.8"
   },
   "require-dev": {
     "mikey179/vfsStream": "1.4.*@dev",
@@ -44,7 +44,7 @@
   },
   "extra": {
     "branch-alias": {
-      "dev-master": "1.0.x-dev"
+      "dev-master": "1.1.x-dev"
     }
   }
 }

@@ -5,7 +5,7 @@ namespace DPN\Dmailsubscribe\Domain\Repository;
 /***************************************************************
  *  Copyright notice
  *
- *  (c) 2016 Björn Fromme <fromme@dreipunktnull.come>
+ *  (c) 2017 Björn Fromme <fromme@dreipunktnull.come>
  *  All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -26,14 +26,12 @@ namespace DPN\Dmailsubscribe\Domain\Repository;
  ***************************************************************/
 
 use DPN\Dmailsubscribe\Domain\Model\Subscription;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Persistence\Repository;
 
 /**
  * Subscription Repository
  *
  * @package Dmailsubscribe
- * @subpackage Domain\Repository
  */
 class SubscriptionRepository extends Repository
 {
@@ -80,13 +78,13 @@ class SubscriptionRepository extends Repository
 
         if (0 < count($lookupPageIds)) {
             $defaultPageIds = $query->getQuerySettings()->getStoragePageIds();
-            $combinedPageIds = GeneralUtility::array_merge($defaultPageIds, $lookupPageIds);
+            $combinedPageIds = $defaultPageIds + $lookupPageIds;
             $query->getQuerySettings()->setStoragePageIds($combinedPageIds);
         }
 
         $query->matching($query->logicalAnd(
             $query->equals('deleted', 0),
-            $query->equals('uid', (integer) $uid)
+            $query->equals('uid', (int) $uid)
         ));
 
         $query->setLimit(1);

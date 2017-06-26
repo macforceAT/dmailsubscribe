@@ -5,7 +5,7 @@ namespace DPN\Dmailsubscribe\ViewHelpers\Link;
 /***************************************************************
  *  Copyright notice
  *
- *  (c) 2016 Björn Fromme <fromme@dreipunktnull.come>
+ *  (c) 2017 Björn Fromme <fromme@dreipunktnull.come>
  *  All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -33,7 +33,6 @@ use DPN\Dmailsubscribe\ViewHelpers\AbstractLinkViewHelper;
  * Generates a link to the "unsubscribe" action.
  *
  * @package Dmailsubscribe
- * @subpackage ViewHelpers\Link
  */
 class UnsubscribeViewHelper extends AbstractLinkViewHelper
 {

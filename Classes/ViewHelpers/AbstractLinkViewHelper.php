@@ -5,7 +5,7 @@ namespace DPN\Dmailsubscribe\ViewHelpers;
 /***************************************************************
  *  Copyright notice
  *
- *  (c) 2016 Björn Fromme <fromme@dreipunktnull.come>
+ *  (c) 2017 Björn Fromme <fromme@dreipunktnull.come>
  *  All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -35,7 +35,6 @@ use TYPO3\CMS\Fluid\ViewHelpers\Link\ActionViewHelper;
  * Base class for link-generating ViewHelpers
  *
  * @package Dmailsubscribe
- * @subpackage ViewHelpers
  */
 abstract class AbstractLinkViewHelper extends ActionViewHelper
 {
@@ -66,7 +65,12 @@ abstract class AbstractLinkViewHelper extends ActionViewHelper
     {
         parent::initializeArguments();
         $this->registerArgument('subscriptionUid', 'integer', 'Uid of the subscription to confirm.', true);
-        $this->registerArgument('confirmationCode', 'string', 'Confirmation code of the subscription to confirm.', true);
+        $this->registerArgument(
+            'confirmationCode',
+            'string',
+            'Confirmation code of the subscription to confirm.',
+            true
+        );
     }
 
     /**
@@ -96,7 +100,7 @@ abstract class AbstractLinkViewHelper extends ActionViewHelper
             throw new ConfigurationException('Plugin page Uid is not configured.');
         }
 
-        $arguments = [
+        $arguments += [
             'subscriptionUid' => $this->arguments['subscriptionUid'],
             'confirmationCode' => $this->arguments['confirmationCode'],
         ];

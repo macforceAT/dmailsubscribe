@@ -5,7 +5,7 @@ namespace DPN\Dmailsubscribe\Domain\Model;
 /***************************************************************
  *  Copyright notice
  *
- *  (c) 2016 Björn Fromme <fromme@dreipunktnull.come>
+ *  (c) 2017 Björn Fromme <fromme@dreipunktnull.come>
  *  All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -33,7 +33,6 @@ use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
  * Simple model for a DirectMail category record.
  *
  * @package Dmailsubscribe
- * @subpackage Domain\Model
  */
 class Category extends AbstractEntity
 {

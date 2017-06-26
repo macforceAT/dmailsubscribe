@@ -5,7 +5,7 @@ namespace DPN\Dmailsubscribe\Controller;
 /***************************************************************
  *  Copyright notice
  *
- *  (c) 2016 Björn Fromme <fromme@dreipunktnull.come>
+ *  (c) 2017 Björn Fromme <fromme@dreipunktnull.come>
  *  All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -43,7 +43,6 @@ use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
  * Subscriptions, unsubscribing, confirming etc.
  *
  * @package Dmailsubscribe
- * @subpackage Controller
  */
 class SubscriptionController extends ActionController
 {
@@ -67,7 +66,6 @@ class SubscriptionController extends ActionController
 
     /**
      * @param \DPN\Dmailsubscribe\Domain\Repository\CategoryRepository $repository
-     * @return void
      */
     public function injectCategoryRepository(CategoryRepository $repository)
     {
@@ -76,7 +74,6 @@ class SubscriptionController extends ActionController
 
     /**
      * @param \DPN\Dmailsubscribe\Domain\Repository\SubscriptionRepository $repository
-     * @return void
      */
     public function injectSubscriptionRepository(SubscriptionRepository $repository)
     {
@@ -85,7 +82,6 @@ class SubscriptionController extends ActionController
 
     /**
      * @param \DPN\Dmailsubscribe\Service\SettingsService $settingsService
-     * @return void
      */
     public function injectSettingsService(SettingsService $settingsService)
     {
@@ -103,7 +99,6 @@ class SubscriptionController extends ActionController
      * id of the page including this plugin.
      *
      * @param Subscription $subscription
-     * @return void
      * @ignorevalidation $subscription
      */
     public function newAction(Subscription $subscription = null)
@@ -119,11 +114,11 @@ class SubscriptionController extends ActionController
             }
         }
 
-        $categoryPids = $this->settingsService->getSetting('categoryPids', array(), ',');
+        $categoryPids = $this->settingsService->getSetting('categoryPids', [], ',');
         $additionalFields = array_fill_keys($this->settingsService->getSetting('additionalFields', [], ','), true);
         $requiredFields = array_fill_keys($this->settingsService->getSetting('requiredFields', [], ','), true);
 
-        $selectedCategories = array();
+        $selectedCategories = [];
         if (null === ($originalRequest = $this->request->getOriginalRequest())) {
             $subscription = $this->objectManager->get(Subscription::class);
         } else {
@@ -134,15 +129,15 @@ class SubscriptionController extends ActionController
         }
 
         $selectableCategories = $this->categoryRepository->findAllInPids($categoryPids);
-        $formCategories = array();
+        $formCategories = [];
 
         /** @var Category $category */
         foreach ($selectableCategories as $category) {
-            $formCategories[] = array(
+            $formCategories[] = [
                 'uid' => $category->getUid(),
                 'title' => $category->getTitle(),
-                'checked' => (boolean)$selectedCategories[$category->getUid()],
-            );
+                'checked' => (bool)$selectedCategories[$category->getUid()],
+            ];
         }
 
         $pluginPageUid = $this->settingsService->getSetting('pluginPageUid');
@@ -159,7 +154,6 @@ class SubscriptionController extends ActionController
     /**
      * @param Subscription $subscription
      * @param array $categories
-     * @return void
      * @validate $subscription \DPN\Dmailsubscribe\Validation\Validator\SubscriptionValidator
      */
     public function subscribeAction(Subscription $subscription, array $categories = [])
@@ -179,10 +173,10 @@ class SubscriptionController extends ActionController
         $persistenceManager = $this->objectManager->get(PersistenceManagerInterface::class);
         $persistenceManager->persistAll();
 
-        $templateVariables = array(
+        $templateVariables = [
             'subscription' => $subscription,
             'confirmationCode' => $this->generateConfirmationCode($subscription->getUid()),
-        );
+        ];
 
         /** @var EmailService $emailService */
         $emailService = $this->objectManager->get(EmailService::class);
@@ -212,11 +206,10 @@ class SubscriptionController extends ActionController
     /**
      * @param string $subscriptionUid
      * @param string $confirmationCode
-     * @return void
      */
     public function confirmAction($subscriptionUid, $confirmationCode)
     {
-        $muteConfirmationErrors = (boolean)$this->settingsService->getSetting('muteConfirmationErrors', true);
+        $muteConfirmationErrors = (bool)$this->settingsService->getSetting('muteConfirmationErrors', true);
 
         if (false === ($confirmationCodeValid = $this->validateConfirmationCode($subscriptionUid, $confirmationCode))) {
             if (false === $muteConfirmationErrors) {
@@ -249,7 +242,7 @@ class SubscriptionController extends ActionController
     /**
      * @param integer $uid
      * @param string $confirmationCode
-     * @return boolean
+     * @return bool
      */
     private function validateConfirmationCode($uid, $confirmationCode)
     {
@@ -260,11 +253,10 @@ class SubscriptionController extends ActionController
     /**
      * @param integer $subscriptionUid
      * @param string $confirmationCode
-     * @return void
      */
     public function unsubscribeAction($subscriptionUid, $confirmationCode)
     {
-        $muteUnsubscribeErrors = (boolean)$this->settingsService->getSetting('muteUnsubscribeErrors', true);
+        $muteUnsubscribeErrors = (bool)$this->settingsService->getSetting('muteUnsubscribeErrors', true);
 
         if (false === ($confirmationCodeValid = $this->validateConfirmationCode($subscriptionUid, $confirmationCode))) {
             if (false === $muteUnsubscribeErrors) {
@@ -295,12 +287,11 @@ class SubscriptionController extends ActionController
 
     /**
      * @param string $email
-     * @return void
      */
     public function unsubscribeformAction($email = null)
     {
         if (null !== $email) {
-            $muteUnsubscribeErrors = (boolean)$this->settingsService->getSetting('muteUnsubscribeErrors', true);
+            $muteUnsubscribeErrors = (bool)$this->settingsService->getSetting('muteUnsubscribeErrors', true);
             $lookupPageIds = $this->settingsService->getSetting('lookupPids', array(), ',');
             if (null === ($subscription = $this->subscriptionRepository->findByEmail($email, $lookupPageIds))) {
                 if (false === $muteUnsubscribeErrors) {
@@ -321,9 +312,6 @@ class SubscriptionController extends ActionController
         $this->view->assign('unsubscribePageUid', $unsubscribePageUid);
     }
 
-    /**
-     * @return void
-     */
     public function messageAction()
     {
     }
@@ -332,7 +320,7 @@ class SubscriptionController extends ActionController
      * Override parent method to disable output of
      * controller errors as flash messages
      *
-     * @return boolean
+     * @return bool
      */
     public function getErrorFlashMessage()
     {

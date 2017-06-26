@@ -5,7 +5,7 @@ namespace DPN\Dmailsubscribe\Validation\Validator;
 /***************************************************************
  *  Copyright notice
  *
- *  (c) 2016 Björn Fromme <fromme@dreipunktnull.come>
+ *  (c) 2017 Björn Fromme <fromme@dreipunktnull.come>
  *  All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -41,7 +41,6 @@ use TYPO3\CMS\Extbase\Validation\Validator\NotEmptyValidator;
  * Validators as configured in TypoScript.
  *
  * @package Dmailsubscribe
- * @subpackage Validation/Validator
  */
 class SubscriptionValidator extends GenericObjectValidator
 {
@@ -59,7 +58,6 @@ class SubscriptionValidator extends GenericObjectValidator
 
     /**
      * @param \DPN\Dmailsubscribe\Service\SettingsService $settingsService
-     * @return void
      */
     public function injectSettingsService(SettingsService $settingsService)
     {
@@ -68,7 +66,6 @@ class SubscriptionValidator extends GenericObjectValidator
 
     /**
      * @param \TYPO3\CMS\Extbase\Object\ObjectManagerInterface $objectManager
-     * @return void
      */
     public function injectObjectManager(ObjectManagerInterface $objectManager)
     {
@@ -87,7 +84,10 @@ class SubscriptionValidator extends GenericObjectValidator
     public function validate($object)
     {
         if (false === $this->canValidate($object)) {
-            throw new InvalidSubjectException(sprintf('Expected "%s" but was "%s"', 'Tx_Dmailsubscribe_Domain_Model_Subscription', get_class($object)));
+            throw new InvalidSubjectException(sprintf(
+                'Expected "%s" but was "%s"', Subscription::class,
+                get_class($object))
+            );
         }
 
         $requiredFields = $this->settingsService->getSetting('requiredFields', [], ',');
@@ -102,7 +102,10 @@ class SubscriptionValidator extends GenericObjectValidator
         $this->addPropertyValidator('email', $emailAddressValidator);
 
         /** @var EmailNotRegisteredValidator $emailNotRegisteredValidator */
-        $emailNotRegisteredValidator = $this->objectManager->get(EmailNotRegisteredValidator::class, ['lookupPageIds' => $lookupPageIds]);
+        $emailNotRegisteredValidator = $this->objectManager->get(
+            EmailNotRegisteredValidator::class,
+            ['lookupPageIds' => $lookupPageIds]
+        );
         $this->addPropertyValidator('email', $emailNotRegisteredValidator);
 
         foreach ($requiredFields as $field) {
@@ -116,7 +119,7 @@ class SubscriptionValidator extends GenericObjectValidator
 
     /**
      * @param object $object
-     * @return boolean
+     * @return bool
      */
     public function canValidate($object)
     {
